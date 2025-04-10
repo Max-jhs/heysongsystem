@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heysong.mapper.TUserMapper">
+    <resultMap id="BaseResultMap" type="com.heysong.domain.TUser">
+        <!--@mbg.generated-->
+        <!--@Table t_user-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="login_act" jdbcType="VARCHAR" property="loginAct"/>
+        <result column="login_pwd" jdbcType="VARCHAR" property="loginPwd"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="account_no_expired" jdbcType="INTEGER" property="accountNoExpired"/>
+        <result column="credentials_no_expired" jdbcType="INTEGER" property="credentialsNoExpired"/>
+        <result column="account_no_locked" jdbcType="INTEGER" property="accountNoLocked"/>
+        <result column="account_enabled" jdbcType="INTEGER" property="accountEnabled"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="edit_time" jdbcType="TIMESTAMP" property="editTime"/>
+        <result column="edit_by" jdbcType="INTEGER" property="editBy"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+    </resultMap>
+    <resultMap id="LoginUserMapper" type="com.heysong.domain.LoginUser">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="login_act" jdbcType="VARCHAR" property="loginAct"/>
+        <result column="login_pwd" jdbcType="VARCHAR" property="loginPwd"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="account_no_expired" jdbcType="INTEGER" property="accountNoExpired"/>
+        <result column="credentials_no_expired" jdbcType="INTEGER" property="credentialsNoExpired"/>
+        <result column="account_no_locked" jdbcType="INTEGER" property="accountNoLocked"/>
+        <result column="account_enabled" jdbcType="INTEGER" property="accountEnabled"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="edit_time" jdbcType="TIMESTAMP" property="editTime"/>
+        <result column="edit_by" jdbcType="INTEGER" property="editBy"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+    </resultMap>
+    <resultMap id="userMap" type="com.heysong.domain.TUser">
+        <!--@mbg.generated-->
+        <!--@Table t_user-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="login_act" jdbcType="VARCHAR" property="loginAct"/>
+        <result column="login_pwd" jdbcType="VARCHAR" property="loginPwd"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="account_no_expired" jdbcType="INTEGER" property="accountNoExpired"/>
+        <result column="credentials_no_expired" jdbcType="INTEGER" property="credentialsNoExpired"/>
+        <result column="account_no_locked" jdbcType="INTEGER" property="accountNoLocked"/>
+        <result column="account_enabled" jdbcType="INTEGER" property="accountEnabled"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="create_by" jdbcType="INTEGER" property="createBy"/>
+        <result column="edit_time" jdbcType="TIMESTAMP" property="editTime"/>
+        <result column="edit_by" jdbcType="INTEGER" property="editBy"/>
+        <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime"/>
+
+        <!--一对一一-->
+        <!--一个user对象有一个创建者user对象一个修改者对象-->
+        <association property="createByPO" javaType="com.heysong.domain.TUser">
+            <id column="creatId" property="id"/>
+            <result column="createByPO" property="name"/>
+        </association>
+        <association property="editByPO" javaType="com.heysong.domain.TUser">
+            <id column="creatId" property="id"/>
+            <result column="editByPO" property="name"/>
+        </association>
+    </resultMap>
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="userMap">
+        <!--@mbg.generated-->
+        SELECT
+        t1.*,
+        t2.id AS editIid,
+        t2.NAME AS editByPO,
+        t3.id AS creatId,
+        t3.NAME AS createByPO
+        FROM
+        t_user t1
+        LEFT JOIN t_user t2 ON t1.edit_by = t2.id
+        LEFT JOIN t_user t3 ON t1.create_by = t3.id
+        WHERE
+        t1.id = #{id}
+    </select>
+    <sql id="Base_Column_List">
+        <!--@mbg.generated-->
+        id,
+        login_act,
+        login_pwd,
+        `name`,
+        phone,
+        email,
+        account_no_expired,
+        credentials_no_expired,
+        account_no_locked,
+        account_enabled,
+        create_time,
+        create_by,
+        edit_time,
+        edit_by,
+        last_login_time
+    </sql>
+    <!--根据用户账号查询账户信息-->
+    <select id="selectByAct" parameterType="java.lang.String" resultMap="LoginUserMapper">
+        <!--@mbg.generated-->
+        select
+        <include refid="Base_Column_List"/>
+        from t_user
+        where login_Act = #{loginAct,jdbcType=VARCHAR}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        <!--@mbg.generated-->
+        delete
+        from t_user
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.heysong.domain.TUser"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_user (login_act, login_pwd, `name`,
+                            phone, email, account_no_expired,
+                            credentials_no_expired, account_no_locked,
+                            account_enabled, create_time, create_by,
+                            edit_time, edit_by, last_login_time)
+        values (#{loginAct,jdbcType=VARCHAR}, #{loginPwd,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+                #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{accountNoExpired,jdbcType=INTEGER},
+                #{credentialsNoExpired,jdbcType=INTEGER}, #{accountNoLocked,jdbcType=INTEGER},
+                #{accountEnabled,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=INTEGER},
+                #{editTime,jdbcType=TIMESTAMP}, #{editBy,jdbcType=INTEGER}, #{lastLoginTime,jdbcType=TIMESTAMP})
+    </insert>
+    <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.heysong.domain.TUser"
+            useGeneratedKeys="true">
+        <!--@mbg.generated-->
+        insert into t_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="loginAct != null">
+                login_act,
+            </if>
+            <if test="loginPwd != null">
+                login_pwd,
+            </if>
+            <if test="name != null">
+                `name`,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="accountNoExpired != null">
+                account_no_expired,
+            </if>
+            <if test="credentialsNoExpired != null">
+                credentials_no_expired,
+            </if>
+            <if test="accountNoLocked != null">
+                account_no_locked,
+            </if>
+            <if test="accountEnabled != null">
+                account_enabled,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+            <if test="createBy != null">
+                create_by,
+            </if>
+            <if test="editTime != null">
+                edit_time,
+            </if>
+            <if test="editBy != null">
+                edit_by,
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="loginAct != null">
+                #{loginAct,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPwd != null">
+                #{loginPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="accountNoExpired != null">
+                #{accountNoExpired,jdbcType=INTEGER},
+            </if>
+            <if test="credentialsNoExpired != null">
+                #{credentialsNoExpired,jdbcType=INTEGER},
+            </if>
+            <if test="accountNoLocked != null">
+                #{accountNoLocked,jdbcType=INTEGER},
+            </if>
+            <if test="accountEnabled != null">
+                #{accountEnabled,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="editTime != null">
+                #{editTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="editBy != null">
+                #{editBy,jdbcType=INTEGER},
+            </if>
+            <if test="lastLoginTime != null">
+                #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.heysong.domain.TUser">
+        <!--@mbg.generated-->
+        update t_user
+        <set>
+            <if test="loginAct != null">
+                login_act = #{loginAct,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPwd != null">
+                login_pwd = #{loginPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="name != null">
+                `name` = #{name,jdbcType=VARCHAR},
+            </if>
+            <if test="phone != null">
+                phone = #{phone,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                email = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="accountNoExpired != null">
+                account_no_expired = #{accountNoExpired,jdbcType=INTEGER},
+            </if>
+            <if test="credentialsNoExpired != null">
+                credentials_no_expired = #{credentialsNoExpired,jdbcType=INTEGER},
+            </if>
+            <if test="accountNoLocked != null">
+                account_no_locked = #{accountNoLocked,jdbcType=INTEGER},
+            </if>
+            <if test="accountEnabled != null">
+                account_enabled = #{accountEnabled,jdbcType=INTEGER},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="createBy != null">
+                create_by = #{createBy,jdbcType=INTEGER},
+            </if>
+            <if test="editTime != null">
+                edit_time = #{editTime,jdbcType=TIMESTAMP},
+            </if>
+            <if test="editBy != null">
+                edit_by = #{editBy,jdbcType=INTEGER},
+            </if>
+            <if test="lastLoginTime != null">
+                last_login_time = #{lastLoginTime,jdbcType=TIMESTAMP},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="com.heysong.domain.TUser">
+        <!--@mbg.generated-->
+        update t_user
+        set login_act              = #{loginAct,jdbcType=VARCHAR},
+            login_pwd              = #{loginPwd,jdbcType=VARCHAR},
+            `name`                 = #{name,jdbcType=VARCHAR},
+            phone                  = #{phone,jdbcType=VARCHAR},
+            email                  = #{email,jdbcType=VARCHAR},
+            account_no_expired     = #{accountNoExpired,jdbcType=INTEGER},
+            credentials_no_expired = #{credentialsNoExpired,jdbcType=INTEGER},
+            account_no_locked      = #{accountNoLocked,jdbcType=INTEGER},
+            account_enabled        = #{accountEnabled,jdbcType=INTEGER},
+            create_time            = #{createTime,jdbcType=TIMESTAMP},
+            create_by              = #{createBy,jdbcType=INTEGER},
+            edit_time              = #{editTime,jdbcType=TIMESTAMP},
+            edit_by                = #{editBy,jdbcType=INTEGER},
+            last_login_time        = #{lastLoginTime,jdbcType=TIMESTAMP}
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <!--  根据用户id查询用户角色-->
+    <select id="selectUserRole" resultType="java.lang.String">
+        select r.role
+        from t_user_role ur
+                 left join t_role r on ur.role_id = r.id
+        where ur.user_id = #{loginId}
+    </select>
+    <!--  根据用户id查询权限信息-->
+    <select id="selectPermission" resultType="java.lang.String">
+        select p.code
+        from t_user_role as ur
+                 left join t_role as r on ur.role_id = r.id
+                 left join t_role_permission as rp on r.id = rp.role_id
+                 left join t_permission as p on rp.permission_id = p.id
+        where ur.user_id = #{loginId}
+    </select>
+
+
+    <select id="selectUsers" parameterType="com.heysong.model.query.BaseQuery" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List">
+        </include>
+        from t_user tu
+        <where>
+            ${dySql}
+        </where>
+    </select>
+
+    <!--  跟新的话可以全部字段都更新，也可以动态更新 如果前端有些字段没传，
+        Tuser接收的话就是null 全更新 就会把库里正常的数据也更新成null了所以动态更新我觉得可以-->
+    <!--{"id":1,"-->
+    <!--loginAct":"admin",-->
+    <!--"loginPwd":"$2a$10$Nlhwhtd0BSCBK95CAifv7eWpCjHloPBMZ3Gaehcc56hRAV3DZALJO",-->
+    <!--"name":"管理员","phone":"13700000000","email":"admin@qq.com",-->
+    <!--"accountNoExpired":1,"credentialsNoExpired":1,-->
+    <!--"accountNoLocked":1,-->
+    <!--"accountEnabled":1,-->
+    <!--"createTime":"2023-02-22 09:37:12",-->
+    <!--"createBy":null,-->
+    <!--"editTime":"2023-05-23 00:21:06",-->
+    <!--"editBy":null,-->
+    <!--"lastLoginTime":"2023-12-10 21:18:59"}-->
+    <!--<set> 标签：会自动处理 SET 子句中多余的逗号，确保生成的 SQL 语法正确但是逗号不能少-->
+    <update id="updateByUserInfo" parameterType="com.heysong.domain.TUser">
+        update t_user
+        <set>
+            <if test="loginAct != null and loginAct != ''">
+                login_act = #{loginAct},
+            </if>
+            <if test="loginPwd != null and loginPwd != ''">
+                login_pwd = #{loginPwd},
+            </if>
+            <if test="phone != null and phone != ''">
+                phone = #{phone},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="credentialsNoExpired != null and credentialsNoExpired != ''">
+                credentials_no_expired = #{credentialsNoExpired},
+            </if>
+            <if test="accountNoExpired != null and accountNoExpired != ''">
+                account_no_expired = #{accountNoExpired},
+            </if>
+            <if test="accountNoLocked != null and accountNoLocked != ''">
+                account_no_locked = #{accountNoLocked},
+            </if>
+            <if test="accountEnabled != null and accountEnabled != ''">
+                account_enabled = #{accountEnabled},
+            </if>
+            <!--date 不是字符串不能还像上边那样判断-->
+            <if test="editTime != null">
+                edit_Time = #{editTime},
+            </if>
+            <if test="editBy != null">
+                edit_By = #{editBy},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+
+    <delete id="deleteByIds" parameterType="java.util.List">
+        delete
+        from t_user
+        where id in
+        <foreach item="idList" index="index" collection="list" open="(" separator="," close=")">
+            #{idList}
+        </foreach>
+    </delete>
+
+    <resultMap id="ownerMap" type="com.heysong.model.vo.OwnerPO">
+        <!--@mbg.generated-->
+        <!--@Table t_user-->
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+    </resultMap>
+    <!--<select id="selectAll" resultType="com.heysong.model.vo.OwnerPO">-->
+    <!--    select u.* from t_user u  这样也可以-->
+    <!--</select>-->
+    <select id="selectAll" resultMap="ownerMap">
+        select u.id id,u.name name from t_user u
+    </select>
+</mapper>

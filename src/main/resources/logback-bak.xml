@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration debug="true">
+<include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+<!-- 定义应用程序名称 -->
+<property name="APP_NAME" value="HeySong"/>
+<!-- 定义日志文件的存储路径 -->
+<property name="LOG_FILE_PATH" value="logs"/>
+<!-- 定义日志文件的文件名，通过拼接日志文件的存储路径、应用程序名称、log扩展名来创建完整的日志文件 -->
+<property name="LOG_FILE_NAME" value="${LOG_FILE_PATH}/${APP_NAME}.log"/>
+
+<!-- Console 输出配置 -->
+<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+<!-- 编码器配置，用于格式化日志输出 -->
+<encoder>
+<!-- 定义日志消息的输出格式，包括日期、进程ID、线程名、日志级别、日志器名和日志消息 -->
+<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [${PID:- }] [%thread] %-5level %logger{36} - %msg%n</pattern>
+<charset>UTF-8</charset>
+</encoder>
+</appender>
+
+<!-- File 输出配置 -->
+<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+<!-- 编码器配置，用于格式化日志输出 -->
+<encoder>
+<!-- 定义日志消息的输出格式，包括日期、进程ID、线程名、日志级别、日志器名和日志消息 -->
+<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [${PID:- }] [%thread] %-5level %logger{36} - %msg%n</pattern>
+<charset>UTF-8</charset>
+</encoder>
+<!-- 滚动策略配置，基于时间的滚动策略 -->
+<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+<!-- 定义滚动日志文件的命名模式，文件名包含日期，并且每天生成一个新的日志文件 -->
+<fileNamePattern>${LOG_FILE_NAME}.%d{yyyy-MM-dd}.log</fileNamePattern>
+</rollingPolicy>
+
+</appender>
+
+<!-- 异步输出配置 -->
+<appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+<!-- 队列大小，定义了在内存中存储日志事件的队列的最大容量 -->
+<queueSize>512</queueSize> <!-- 队列大小 -->
+
+<!-- 丢弃阈值，当队列剩余容量小于这个值时，将丢弃低于指定级别的日志事件 -->
+<!-- 0 表示不丢弃任何级别的日志事件 -->
+<discardingThreshold>0</discardingThreshold> <!-- 丢弃阈值，0 表示不丢弃 -->
+
+<!-- 队列满时是否阻塞主线程，true 表示即使队列满了也不会阻塞主线程 -->
+<!-- 这可能会导致日志事件丢失 -->
+<neverBlock>true</neverBlock> <!-- 队列满时是否阻塞主线程，true 表示不阻塞 -->
+
+<!-- 指定异步日志输出要引用的appender，此处只能引用一个appender，如果引用了多个appender，只有第一个appender生效 -->
+<!-- 异步appender会将日志事件转发给这里指定的appender -->
+<appender-ref ref="FILE"/> <!-- 生效的日志目标 -->
+</appender>
+
+<!-- 设置日志级别为INFO，即INFO级别及以上的日志事件才会被处理 -->
+<root level="INFO">
+<!-- 引用名为CONSOLE的appender，将日志输出到控制台 -->
+<appender-ref ref="CONSOLE"/>
+
+<!-- 引用名为FILE的appender，将日志输出到文件 -->
+<!--<appender-ref ref="FILE"/>-->
+
+<!-- 引用名为ASYNC的异步appender，提高日志记录性能 -->
+<appender-ref ref="ASYNC"/>
+</root>
+
+<!-- 配置特定包的日志级别 -->
+<!-- 设置cn.edu.scau包下的所有类的日志级别为INFO -->
+<logger name="cn.edu.scau" level="INFO"/>
+
+<!-- 配置特定类的日志级别为WARN -->
+<!-- 这将覆盖默认的日志级别设置，只记录WARN及以上级别的日志 -->
+<logger name="org.apache.sshd.common.util.SecurityUtils" level="WARN"/>
+
+</configuration>

@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.heysong.mapper.TClueRemarkMapper">
+  <resultMap id="BaseResultMap" type="com.heysong.domain.TClueRemark">
+    <!--@mbg.generated-->
+    <!--@Table t_clue_remark-->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="clue_id" jdbcType="INTEGER" property="clueId" />
+    <result column="note_way" jdbcType="INTEGER" property="noteWay" />
+    <result column="note_content" jdbcType="VARCHAR" property="noteContent" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="INTEGER" property="createBy" />
+    <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
+    <result column="edit_by" jdbcType="INTEGER" property="editBy" />
+    <result column="deleted" jdbcType="INTEGER" property="deleted" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    id, clue_id, note_way, note_content, create_time, create_by, edit_time, edit_by, 
+    deleted
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    <!--@mbg.generated-->
+    select 
+    <include refid="Base_Column_List" />
+    from t_clue_remark
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    <!--@mbg.generated-->
+    delete from t_clue_remark
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" keyColumn="id" keyProperty="id" parameterType="com.heysong.domain.TClueRemark" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_clue_remark (clue_id, note_way, note_content, 
+      create_time, create_by, edit_time, 
+      edit_by, deleted)
+    values (#{clueId,jdbcType=INTEGER}, #{noteWay,jdbcType=INTEGER}, #{noteContent,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=INTEGER}, #{editTime,jdbcType=TIMESTAMP}, 
+      #{editBy,jdbcType=INTEGER}, #{deleted,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" keyColumn="id" keyProperty="id" parameterType="com.heysong.domain.TClueRemark" useGeneratedKeys="true">
+    <!--@mbg.generated-->
+    insert into t_clue_remark
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="clueId != null">
+        clue_id,
+      </if>
+      <if test="noteWay != null">
+        note_way,
+      </if>
+      <if test="noteContent != null">
+        note_content,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="editTime != null">
+        edit_time,
+      </if>
+      <if test="editBy != null">
+        edit_by,
+      </if>
+      <if test="deleted != null">
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="clueId != null">
+        #{clueId,jdbcType=INTEGER},
+      </if>
+      <if test="noteWay != null">
+        #{noteWay,jdbcType=INTEGER},
+      </if>
+      <if test="noteContent != null">
+        #{noteContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="editTime != null">
+        #{editTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editBy != null">
+        #{editBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        #{deleted,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.heysong.domain.TClueRemark">
+    <!--@mbg.generated-->
+    update t_clue_remark
+    <set>
+      <if test="clueId != null">
+        clue_id = #{clueId,jdbcType=INTEGER},
+      </if>
+      <if test="noteWay != null">
+        note_way = #{noteWay,jdbcType=INTEGER},
+      </if>
+      <if test="noteContent != null">
+        note_content = #{noteContent,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=INTEGER},
+      </if>
+      <if test="editTime != null">
+        edit_time = #{editTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editBy != null">
+        edit_by = #{editBy,jdbcType=INTEGER},
+      </if>
+      <if test="deleted != null">
+        deleted = #{deleted,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.heysong.domain.TClueRemark">
+    <!--@mbg.generated-->
+    update t_clue_remark
+    set clue_id = #{clueId,jdbcType=INTEGER},
+      note_way = #{noteWay,jdbcType=INTEGER},
+      note_content = #{noteContent,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=INTEGER},
+      edit_time = #{editTime,jdbcType=TIMESTAMP},
+      edit_by = #{editBy,jdbcType=INTEGER},
+      deleted = #{deleted,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+    <resultMap id="BaseRemarkMap" type="com.heysong.domain.TClueRemark">
+        <!--@mbg.generated-->
+        <!--@Table t_clue_remark-->
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="note_way" jdbcType="INTEGER" property="noteWay" />
+        <result column="note_content" jdbcType="VARCHAR" property="noteContent" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="edit_time" jdbcType="TIMESTAMP" property="editTime" />
+        <association property="createByPO" javaType="com.heysong.model.vo.CreatePO">
+            <result column="cid" property="id"/>
+            <result column="cname" property="name"/>
+        </association>
+        <association property="editByPO" javaType="com.heysong.model.vo.EditPO">
+            <result column="eid" property="id"/>
+            <result column="ename" property="name"/>
+        </association>
+        <association property="noteWayPO" javaType="com.heysong.model.vo.NoteWayPO">
+            <result column="noteId" property="id"/>
+            <result column="typeValue" property="typeValue"/>
+        </association>
+    </resultMap>
+  <select id="selectAll" resultMap="BaseRemarkMap">
+      select tcr.*,c.id cid,c.name cname,e.id eid,e.name ename,tdv.id noteId,tdv.type_value typeValue
+      from
+          t_clue_remark tcr left join t_user c on tcr.create_by = c.id
+                            left join t_user e on tcr.edit_by = e.id
+                            left join t_dic_value tdv  on tdv.id = tcr.note_way
+      where tcr.clue_id = #{clueId} and deleted = 0
+
+    </select>
+</mapper>
